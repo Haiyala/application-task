@@ -1,1 +1,29 @@
-.devcontainer/devcontainer.json
+{
+  "name": "PHP API Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/php:8.2",
+
+  "features": {
+    "ghcr.io/devcontainers/features/composer:1": {},
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "sonarsource.sonarlint-vscode"
+      ]
+    }
+  },
+
+  "postCreateCommand": "composer install || true",
+
+  "forwardPorts": [8000],
+
+  "portsAttributes": {
+    "8000": {
+      "label": "PHP Server",
+      "onAutoForward": "notify"
+    }
+  }
+}
