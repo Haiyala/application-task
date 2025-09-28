@@ -9,5 +9,5 @@
 ## Files
 - `application-task/api/rates.php` - backend proxy (the REST endpoint)
 - `application-task/index.html` & `public/js/app.js` - frontend
-- `.github/workflows/sonarcloud.yml` - GitHub Action for SonarCloud
+- `.github/workflows/sonarcloud-pr.yml` - GitHub Action for SonarCloud
 - `.devcontainer/*` - Codespaces config
