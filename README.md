@@ -1,13 +1,13 @@
-# Applicatio Task - Restful API
+# gondwana-rates - Restful API
 
-## How to run (Codespace)
-1. Open this repo in GitHub Codespaces.
-2. Codespace runs Apache + PHP. Open forwarded port 80 in the browser preview.
-3. Visit `http://localhost:80` -> the frontend is at `/application-task/index.html`.
-4. Fill the form and click *Get Rates*. This posts to `/application-task/api/rates.php`.
+## How to run (XAMPP)
+1. Place the project folder `gonwana-rates` inside your XAMPP `htdocs` directory.
+2. Start Apache in XAMPP Control Panel.
+3. Open a browser and visit `http://localhost/gonwana-rates/index.php`.
+4. Fill in the form and click *Get Rates*.  
+   This will send a request to `/gonwana-rates/api/api.php`.
 
 ## Files
-- `application-task/api/rates.php` - backend proxy (the REST endpoint)
-- `application-task/index.html` & `public/js/app.js` - frontend
-- `.github/workflows/sonarcloud-pr.yml` - GitHub Action for SonarCloud
-- `.devcontainer/*` - Codespaces config
+- `gonwana-rates/index.php` – frontend
+- `gonwana-rates/api/api.php` – backend REST API endpoint
+- `gonwana-rates/api/debug.log` – log file for debugging
