@@ -1,5 +1,9 @@
 {
-  "name": "PHP DevContainer",
-  "dockerFile": "Dockerfile",
-  "forwardPorts": [80]
+    "name": "Gondwana Rates PHP",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "forwardPorts": [8080],
+    "postCreateCommand": "php -v",
+    "remoteUser": "codespace"
 }
