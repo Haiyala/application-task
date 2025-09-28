@@ -1,15 +1,15 @@
 <?php
 
-// log all the activitis in the program so that it shows the errros that the sysm will have
+// Log all API requests to debug.log for troubleshooting
+// commented by MNhaiyala
 file_put_contents(__DIR__.'/debug.log', date('Y-m-d H:i:s') . " - " . $_SERVER['REQUEST_METHOD'] . " - Payload: " . file_get_contents('php://input') . "\n", FILE_APPEND);
- 
-// api/rates.php
+
 header("Content-Type: application/json; charset=utf-8");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 
-
-//Here I will check and make sure only post is allowd
+// Only allow POST requests
+// commented by MNhaiyala
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(["error" => "Method Not Allowed. Use POST."]);
@@ -36,8 +36,8 @@ foreach ($required as $r) {
 }
 // ----------------------------------------------------------- Required fields End---------------------------------------------------------------------
 
-
-//------------------------------------------ Date converter dd/mm/yyyy → yyyy-mm-dd start-----------------------------------------------------------
+// Convert date from dd/mm/yyyy → yyyy-mm-dd
+// commented by MNhaiyala
 function convertDate($d) {
     $d = trim($d);
     $parts = preg_split('/[\/\-\.]/', $d);
@@ -46,20 +46,18 @@ function convertDate($d) {
     if (!checkdate((int)$month, (int)$day, (int)$year)) return false;
     return sprintf("%04d-%02d-%02d", $year, $month, $day);
 }
-//------------------------------------------ Date converter dd/mm/yyyy → yyyy-mm-dd end-----------------------------------------------------------
 
-// ---------------------------------------------------------Map Unit Name to Unit Type ID Start---------------------------------------------------------
+// Map Unit Name to Unit Type ID
+// commented by MNhaiyala
 $unitMap = [
     "Unit A" => -2147483637,
     "Unit B" => -2147483456,
 ];
-
 $unitName = $data["Unit Name"];
 $unitTypeId = $unitMap[$unitName] ?? (is_numeric($unitName) ? (int)$unitName : -2147483637);
-// ---------------------------------------------------------Map Unit Name to Unit Type ID Start---------------------------------------------------------
 
-
-// ---------------------------------------------------Validate dates Start---------------------------------------------------
+// Validate dates
+// commented by MNhaiyala
 $arrival = convertDate($data["Arrival"]);
 $departure = convertDate($data["Departure"]);
 if ($arrival === false || $departure === false) {
@@ -67,9 +65,9 @@ if ($arrival === false || $departure === false) {
     echo json_encode(["error" => "Invalid date format. Use dd/mm/yyyy"]);
     exit;
 }
-// ---------------------------------------------------Validate dates End---------------------------------------------------
 
-//-------------------------------------------------- Build Guests array Start--------------------------------------------------
+// Build Guests array from ages
+// commented by MNhaiyala
 $ages = is_array($data["Ages"]) ? $data["Ages"] : [];
 $guests = [];
 foreach ($ages as $a) {
@@ -82,10 +80,9 @@ if (empty($guests)) {
         $guests[] = ["Age Group" => "Adult"];
     }
 }
-//-------------------------------------------------- Build Guests array End--------------------------------------------------
 
-//Pass this data to the Rate.php so that it return the information
-// Remote payload
+// Prepare payload for remote API
+// commented by MNhaiyala
 $remotePayload = [
     "Unit Type ID" => $unitTypeId,
     "Arrival"      => $arrival,
@@ -93,7 +90,8 @@ $remotePayload = [
     "Guests"       => $guests
 ];
 
-// Call remote API  // https://dev.gondwana-collection.com/Web-Store/Rates/Rates.php
+// Call remote API
+// commented by MNhaiyala
 $remoteUrl = "https://dev.gondwana-collection.com/Web-Store/Rates/Rates.php";
 $ch = curl_init($remoteUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -120,11 +118,12 @@ if ($response === false) {
 
 $remoteData = json_decode($response, true);
 
-// Final response
+// Send final response back to frontend
+// commented by MNhaiyala
 http_response_code($httpStatus >= 200 && $httpStatus < 300 ? 200 : $httpStatus);
 echo json_encode([
     "requested" => $remotePayload,
     "remote_status" => $httpStatus,
     "remote_response" => $remoteData ?? $response
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-exit; // optional, ensures nothing else is output
+exit; // ensures nothing else is output
