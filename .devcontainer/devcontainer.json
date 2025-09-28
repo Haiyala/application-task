@@ -1,20 +1,5 @@
 {
-  "name": "PHP Apache Dev",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "forwardPorts": [80],
-  "workspaceFolder": "/workspace",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
-}
-
-
-  "forwardPorts": [8000],
-
-  "portsAttributes": {
-    "8000": {
-      "label": "PHP Server",
-      "onAutoForward": "notify"
-    }
-  }
+  "name": "PHP DevContainer",
+  "dockerFile": "Dockerfile",
+  "forwardPorts": [80]
 }
