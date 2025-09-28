@@ -3,7 +3,7 @@
 ## How to run (XAMPP)
 1. Place the project folder `gonwana-rates` inside your XAMPP `htdocs` directory.
 2. Start Apache in XAMPP Control Panel.
-3. Open a browser and visit `https://animated-yodel-r5x7xwp766jcx6vv.github.dev/ OR `http://localhost/gonwana-rates/index.php`.
+3. Open a browser and visit `https://animated-yodel-r5x7xwp766jcx6vv.github.dev`.
 4. Fill in the form and click *Get Rates*.  
    This will send a request to `/gonwana-rates/api/api.php`.
 
