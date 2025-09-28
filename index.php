@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Rates UI</title>
+  <title>Gondwana Rates</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 </head>
 <body class="bg-light">
   <div class="container py-4">
@@ -17,12 +17,12 @@
       <div class="card-body">
         <form id="ratesForm">
           <div class="mb-2">
-          <label class="form-label">Unit Name</label>
-          <select class="form-control" id="unitName" required>
-            <option value="Unit A" selected>Unit A</option>
-            <option value="Unit B">Unit B</option>
-          </select>
-        </div>
+            <label class="form-label">Unit Name</label>
+            <select class="form-control" id="unitName" required>
+              <option value="Unit A" selected>Unit A</option>
+              <option value="Unit B">Unit B</option>
+            </select>
+          </div>
 
           <div class="row">
             <div class="col-md-6 mb-2">
@@ -57,32 +57,33 @@
         <tbody></tbody>
       </table>
 
-      <pre id="rawResp" class="p-2 bg-dark text-white" style="max-height:300px;overflow:auto"></pre>
+      <!--
+        Raw response display area (for debugging purposes)
+        commented by MNhaiyala
+      -->
+      <!--<pre id="rawResp" class="p-2 bg-dark text-white" style="max-height:300px;overflow:auto"></pre> -->
     </div>
 
- 
-
   </div>
-<!-- Add this modal HTML at the end of <body> -->
-<div class="modal fade" id="ratesModal" tabindex="-1" aria-labelledby="ratesModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ratesModalLabel">Rate Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="modalContent">
-        <!-- Dynamic content will appear here -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+  <!-- Modal to show rate details -->
+  <div class="modal fade" id="ratesModal" tabindex="-1" aria-labelledby="ratesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ratesModalLabel">Rate Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modalContent">
+          <!-- Dynamic modal content -->
+          <!-- commented by MNhaiyala: populated with detailed info for each leg of the rate -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- Add Bootstrap JS at the bottom of <body> -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 
 <script>
 $(document).ready(function() {
@@ -107,15 +108,13 @@ $(document).ready(function() {
     console.log(payload);
 
     $.ajax({
-      url: 'api/rates.php', // adjust path if needed
+      url: 'api/rates.php',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(payload),
       dataType: 'json',
       success: function(json) {
         $('#resultArea').show();
-        $('#rawResp').text(JSON.stringify(json, null, 2));
-
         const tbody = $('#resultTable tbody');
         tbody.empty();
 
@@ -153,7 +152,6 @@ $(document).ready(function() {
         }
         $('#modalContent').html(modalHtml.join(''));
 
-        // Show modal when button clicked
         $('.view-details').on('click', function() {
           const modal = new bootstrap.Modal(document.getElementById('ratesModal'));
           modal.show();
@@ -166,6 +164,5 @@ $(document).ready(function() {
   });
 });
 </script>
-
 </body>
 </html>
