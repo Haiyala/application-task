@@ -1,11 +1,10 @@
-# Use official PHP with Apache
-FROM php:8.2-apache
+# Use Ubuntu base image
+FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu
 
-# Enable curl extension
-RUN docker-php-ext-install curl
+# Install PHP and extensions
+RUN apt-get update && \
+    apt-get install -y php php-cli php-curl php-mbstring php-xml unzip git curl && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copy project into container
-COPY . /var/www/html/
-
-# Set working directory
-WORKDIR /var/www/html
+# Set workdir
+WORKDIR /workspaces/gondwana-rate
